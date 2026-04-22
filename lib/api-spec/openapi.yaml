@@ -3,20 +3,25 @@ info:
   # Do not change the title, if the title changes, the import paths will be broken
   title: Api
   version: 0.1.0
-  description: API specification
+  description: Spray — Solana creator tip jar API
 servers:
   - url: /api
     description: Base API path
 tags:
   - name: health
     description: Health operations
+  - name: creators
+    description: Creator profile operations
+  - name: tips
+    description: Tip operations
+  - name: stats
+    description: Platform stats and aggregates
 paths:
   /healthz:
     get:
       operationId: healthCheck
       tags: [health]
       summary: Health check
-      description: Returns server health status
       responses:
         "200":
           description: Healthy
@@ -24,6 +29,216 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+  /creators:
+    get:
+      operationId: listCreators
+      tags: [creators]
+      summary: List creators
+      description: List creators, optionally filtered by search term, ordered by most recent activity.
+      parameters:
+        - name: search
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+      responses:
+        "200":
+          description: Creator list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Creator"
+    post:
+      operationId: createCreator
+      tags: [creators]
+      summary: Create a new creator profile
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateCreatorBody"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Creator"
+        "409":
+          description: Username or wallet already taken
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /creators/{username}:
+    get:
+      operationId: getCreator
+      tags: [creators]
+      summary: Get a creator by username
+      parameters:
+        - name: username
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Creator
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Creator"
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /creators/{username}/tips:
+    get:
+      operationId: listCreatorTips
+      tags: [tips]
+      summary: List tips received by a creator
+      parameters:
+        - name: username
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 50
+      responses:
+        "200":
+          description: Tips
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Tip"
+    post:
+      operationId: recordTip
+      tags: [tips]
+      summary: Record a tip after on-chain confirmation
+      description: Record a tip transaction after the client has sent SOL on Solana Devnet. The server verifies the signature exists on-chain.
+      parameters:
+        - name: username
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RecordTipBody"
+      responses:
+        "201":
+          description: Recorded
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Tip"
+        "404":
+          description: Creator not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /creators/{username}/stats:
+    get:
+      operationId: getCreatorStats
+      tags: [stats]
+      summary: Get aggregate stats for a creator
+      parameters:
+        - name: username
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Stats
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CreatorStats"
+  /tips/recent:
+    get:
+      operationId: listRecentTips
+      tags: [tips]
+      summary: Recent tips across all creators (global tip wall)
+      parameters:
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 30
+      responses:
+        "200":
+          description: Recent tips
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/TipWithCreator"
+  /stats/platform:
+    get:
+      operationId: getPlatformStats
+      tags: [stats]
+      summary: Get global platform stats
+      responses:
+        "200":
+          description: Platform stats
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PlatformStats"
+  /stats/top-creators:
+    get:
+      operationId: getTopCreators
+      tags: [stats]
+      summary: Top creators by total tips received
+      parameters:
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 50
+            default: 10
+      responses:
+        "200":
+          description: Top creators
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/CreatorWithStats"
 components:
   schemas:
     HealthStatus:
@@ -31,6 +246,138 @@ components:
       properties:
         status:
           type: string
-      required:
-        - status
-
+      required: [status]
+    ErrorResponse:
+      type: object
+      properties:
+        message:
+          type: string
+      required: [message]
+    Creator:
+      type: object
+      properties:
+        id:
+          type: string
+        username:
+          type: string
+        displayName:
+          type: string
+        bio:
+          type: string
+        avatarUrl:
+          type: string
+          nullable: true
+        walletAddress:
+          type: string
+          description: Solana public key (base58)
+        createdAt:
+          type: string
+          format: date-time
+      required: [id, username, displayName, bio, walletAddress, createdAt]
+    CreateCreatorBody:
+      type: object
+      properties:
+        username:
+          type: string
+          minLength: 3
+          maxLength: 30
+          pattern: "^[a-z0-9_]+$"
+        displayName:
+          type: string
+          minLength: 1
+          maxLength: 60
+        bio:
+          type: string
+          maxLength: 280
+        avatarUrl:
+          type: string
+          nullable: true
+        walletAddress:
+          type: string
+          description: Solana public key (base58, 32-44 chars)
+      required: [username, displayName, bio, walletAddress]
+    Tip:
+      type: object
+      properties:
+        id:
+          type: string
+        creatorUsername:
+          type: string
+        signature:
+          type: string
+          description: Solana transaction signature
+        amountLamports:
+          type: integer
+          description: Amount in lamports (1 SOL = 1,000,000,000 lamports)
+        tipperName:
+          type: string
+        tipperWallet:
+          type: string
+          nullable: true
+        message:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+      required: [id, creatorUsername, signature, amountLamports, tipperName, message, createdAt]
+    TipWithCreator:
+      allOf:
+        - $ref: "#/components/schemas/Tip"
+        - type: object
+          properties:
+            creatorDisplayName:
+              type: string
+            creatorAvatarUrl:
+              type: string
+              nullable: true
+          required: [creatorDisplayName]
+    RecordTipBody:
+      type: object
+      properties:
+        signature:
+          type: string
+        amountLamports:
+          type: integer
+          minimum: 1
+        tipperName:
+          type: string
+          maxLength: 60
+        tipperWallet:
+          type: string
+          nullable: true
+        message:
+          type: string
+          maxLength: 280
+      required: [signature, amountLamports, tipperName, message]
+    CreatorStats:
+      type: object
+      properties:
+        totalTips:
+          type: integer
+        totalLamports:
+          type: integer
+        uniqueTippers:
+          type: integer
+        biggestTipLamports:
+          type: integer
+      required: [totalTips, totalLamports, uniqueTippers, biggestTipLamports]
+    PlatformStats:
+      type: object
+      properties:
+        totalCreators:
+          type: integer
+        totalTips:
+          type: integer
+        totalLamports:
+          type: integer
+      required: [totalCreators, totalTips, totalLamports]
+    CreatorWithStats:
+      allOf:
+        - $ref: "#/components/schemas/Creator"
+        - type: object
+          properties:
+            totalTips:
+              type: integer
+            totalLamports:
+              type: integer
+          required: [totalTips, totalLamports]

@@ -1,0 +1,239 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "@solana/wallet-adapter-react-ui/styles.css";
+@plugin "@tailwindcss/typography";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+  --color-card-border: hsl(var(--card-border));
+
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+  --color-popover-border: hsl(var(--popover-border));
+
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-primary-border: var(--primary-border);
+
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  --color-secondary-border: var(--secondary-border);
+
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-muted-border: var(--muted-border);
+
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+  --color-accent-border: var(--accent-border);
+
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+  --color-destructive-border: var(--destructive-border);
+
+  --color-chart-1: hsl(var(--chart-1));
+  --color-chart-2: hsl(var(--chart-2));
+  --color-chart-3: hsl(var(--chart-3));
+  --color-chart-4: hsl(var(--chart-4));
+  --color-chart-5: hsl(var(--chart-5));
+
+  --color-sidebar: hsl(var(--sidebar));
+  --color-sidebar-foreground: hsl(var(--sidebar-foreground));
+  --color-sidebar-border: hsl(var(--sidebar-border));
+  --color-sidebar-primary: hsl(var(--sidebar-primary));
+  --color-sidebar-primary-foreground: hsl(var(--sidebar-primary-foreground));
+  --color-sidebar-primary-border: var(--sidebar-primary-border);
+  --color-sidebar-accent: hsl(var(--sidebar-accent));
+  --color-sidebar-accent-foreground: hsl(var(--sidebar-accent-foreground));
+  --color-sidebar-accent-border: var(--sidebar-accent-border);
+  --color-sidebar-ring: hsl(var(--sidebar-ring));
+
+  --font-sans: var(--app-font-sans);
+  --font-serif: var(--app-font-serif);
+  --font-mono: var(--app-font-mono);
+  --font-display: var(--app-font-display);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+/* Base Light Mode - Not primary focus but valid */
+:root {
+  --background: 0 0% 98%;
+  --foreground: 240 10% 10%;
+  --border: 240 5.9% 90%;
+  --card: 0 0% 100%;
+  --card-foreground: 240 10% 10%;
+  --card-border: 240 5.9% 90%;
+  --sidebar: 0 0% 100%;
+  --sidebar-foreground: 240 10% 10%;
+  --sidebar-border: 240 5.9% 90%;
+  --sidebar-primary: 320 100% 50%;
+  --sidebar-primary-foreground: 0 0% 100%;
+  --sidebar-accent: 320 100% 95%;
+  --sidebar-accent-foreground: 320 100% 40%;
+  --sidebar-ring: 320 100% 50%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 240 10% 10%;
+  --popover-border: 240 5.9% 90%;
+  
+  /* Hot Magenta Primary */
+  --primary: 320 100% 50%;
+  --primary-foreground: 0 0% 100%;
+  
+  --secondary: 240 5% 96%;
+  --secondary-foreground: 240 10% 10%;
+  --muted: 240 5% 96%;
+  --muted-foreground: 240 5% 45%;
+  
+  /* Gold Accent */
+  --accent: 45 100% 50%;
+  --accent-foreground: 0 0% 0%;
+  
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 0 0% 98%;
+  --input: 240 5.9% 90%;
+  --ring: 320 100% 50%;
+  
+  --chart-1: 320 100% 50%;
+  --chart-2: 45 100% 50%;
+  --chart-3: 190 100% 50%;
+  --chart-4: 280 100% 50%;
+  --chart-5: 10 100% 50%;
+
+  --app-font-sans: 'Plus Jakarta Sans', sans-serif;
+  --app-font-display: 'Clash Display', 'Plus Jakarta Sans', sans-serif;
+  --app-font-serif: Georgia, serif;
+  --app-font-mono: 'Space Mono', monospace;
+  --radius: 0.75rem;
+}
+
+/* Dark Mode - The Default Experience */
+.dark, :root {
+  --background: 240 20% 4%;
+  --foreground: 0 0% 98%;
+  --border: 240 20% 12%;
+  --card: 240 20% 6%;
+  --card-foreground: 0 0% 98%;
+  --card-border: 240 20% 12%;
+  
+  --sidebar: 240 20% 6%;
+  --sidebar-foreground: 0 0% 98%;
+  --sidebar-border: 240 20% 12%;
+  --sidebar-primary: 320 100% 50%;
+  --sidebar-primary-foreground: 0 0% 100%;
+  --sidebar-accent: 320 50% 15%;
+  --sidebar-accent-foreground: 320 100% 70%;
+  --sidebar-ring: 320 100% 50%;
+  
+  --popover: 240 20% 6%;
+  --popover-foreground: 0 0% 98%;
+  --popover-border: 240 20% 12%;
+  
+  /* Hot Magenta Primary */
+  --primary: 320 100% 50%;
+  --primary-foreground: 0 0% 100%;
+  
+  --secondary: 240 20% 10%;
+  --secondary-foreground: 0 0% 98%;
+  
+  --muted: 240 20% 10%;
+  --muted-foreground: 240 10% 60%;
+  
+  /* Gold Accent */
+  --accent: 45 100% 50%;
+  --accent-foreground: 0 0% 0%;
+  
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 0 0% 98%;
+  
+  --input: 240 20% 12%;
+  --ring: 320 100% 50%;
+  
+  --chart-1: 320 100% 50%;
+  --chart-2: 45 100% 50%;
+  --chart-3: 190 100% 50%;
+  --chart-4: 280 100% 50%;
+  --chart-5: 10 100% 50%;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply font-sans antialiased bg-background text-foreground;
+    /* Add a subtle dark noisy texture */
+    background-image: radial-gradient(circle at 50% 0%, hsla(320, 100%, 50%, 0.05) 0%, transparent 50%),
+                      radial-gradient(circle at 0% 100%, hsla(45, 100%, 50%, 0.03) 0%, transparent 50%);
+    background-attachment: fixed;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+  }
+}
+
+/* Wallet Adapter Customization */
+.wallet-adapter-button-trigger {
+  background-color: hsl(var(--primary)) !important;
+  color: hsl(var(--primary-foreground)) !important;
+  border-radius: var(--radius) !important;
+  font-family: var(--font-sans) !important;
+  font-weight: 600 !important;
+  padding: 0 1rem !important;
+  height: 2.5rem !important;
+  transition: all 0.2s ease !important;
+}
+
+.wallet-adapter-button-trigger:hover {
+  background-color: hsl(var(--primary)) !important;
+  filter: brightness(1.2) !important;
+  box-shadow: 0 0 15px hsla(var(--primary) / 0.5) !important;
+}
+
+.wallet-adapter-dropdown-list {
+  background-color: hsl(var(--card)) !important;
+  border: 1px solid hsl(var(--border)) !important;
+  border-radius: var(--radius) !important;
+}
+
+.wallet-adapter-dropdown-list-item {
+  color: hsl(var(--foreground)) !important;
+  font-family: var(--font-sans) !important;
+}
+
+.wallet-adapter-dropdown-list-item:hover {
+  background-color: hsl(var(--secondary)) !important;
+}
+
+/* Custom Utilities */
+@layer utilities {
+  .text-glow {
+    text-shadow: 0 0 20px hsla(var(--primary) / 0.5);
+  }
+  
+  .text-glow-accent {
+    text-shadow: 0 0 20px hsla(var(--accent) / 0.5);
+  }
+  
+  .box-glow {
+    box-shadow: 0 0 30px hsla(var(--primary) / 0.15);
+  }
+  
+  .box-glow-hover:hover {
+    box-shadow: 0 0 40px hsla(var(--primary) / 0.3);
+  }
+}
