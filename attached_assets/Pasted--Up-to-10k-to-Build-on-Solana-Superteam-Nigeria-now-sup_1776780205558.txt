@@ -1,0 +1,45 @@
+💸 Up to $10k to Build on Solana
+Superteam Nigeria now supports Solana Foundation Grants. These are grants for projects working on promoting decentralization and censorship resistance on the Solana network.
+
+Even though the primary focus of the grants is to fund dApps and technical contribution, the Foundation may also support content and community grants that fit within the stated goals of the Grant program. Anyone with an idea or proof of work is welcome to apply and receive funding decision for a $1 - $10,000 grant. The Solana Foundation hands out these grants typically once a month.
+
+🎯Areas of focus:
+Promote Decentralization. Create developer tooling, media, content, and community projects focused on promoting and bringing more decentralization to Solana as well as the world at large.
+Make Solana more censorship resistant. Primarily technical projects and code contributions which can help us make Solana the most censorship resistance platform for building dApps on.
+DAO Tooling: Create coordination, communication, and payments tools for communities using Solana as the backbone of their infrastructure.
+Developer Tooling: Create tools, programs and hacks making it easier and faster for engineers to build the next generation of dApps on Solana.
+Payments: Build payments apps for consumers and businesses, making P2P payments, as well as commerce better integrated with the crypto ecosystem using Solana Pay.
+Cause-driven building: We’re also looking to fund projects and research around using crypto to create a more inclusive financial system, and innovative solutions towards climate change.
+You can read more about some specific RFPs  here as well.
+
+💡 The Foundation receives tens of applications every week, and may not have the time to give detailed feedback on every application. Please keep that in mind before you apply.
+
+⚙️ How It Works:
+Submit the application form on Superteam Earn.
+The team does their best to respond within ~30 days.
+If approved, you'll receive an email notification for onboarding and further steps, and 25% of your requested funding in your SOL wallet will soon follow in our next payout.
+Update the community once a week on your progress.
+As you achieve your self-described milestones, receive the rest of your funding.
+Submit finished work for feedback, review, and distribution.
+🤝 Guidelines
+Be Concise: Being clear and concise is always helpful.
+Build what the ecosystem needs: Besides our Grant Proposals, we often see people on Twitter (and elsewhere) saying things like "Solana needs X" or "Solana would be better if it had Y". Use this information!
+Open Source: Being clear and concise is always helpful. What makes decentralized applications so powerful is that it’s built on the premise of being open and composable. Therefore, this grant support teams that intend to open source soon after deploying on Solana’s Mainnet Beta.
+❓Frequently asked questions
+Who is eligible to apply for an Instagrant?
+Anyone in Nigeria!
+How fast is "Instant"?
+Grant requests are typically approved in 30 days or less.
+What criteria will the panelists use to evaluate grants?
+We prefer projects that 1) yield results quickly and 2) are executable by the Proposing team.
+What conditions apply?
+The only condition is that you keep the community updated on a regular basis as your project progresses.
+What is the philosophy behind the Instagrants program
+Proof of Work > Credentials. Anyone is welcome to apply for Instagrants, given they have enough Proof of Work to make the review committee believe the work will get done.
+Speed > Perfection. We want to give grants rapidly. Not perfectly. We trust people to get work done.
+Believers > Consensus. As long as a minimum quorum of the reviewing committee believes it's a good use of funds, we will fund it.
+Will I receive feedback on my proposal if it is rejected?
+Unfortunately, our sponsors do not have the ability to provide individualized feedback at this time.
+ 
+
+Note: The Superteam Nigeria team does not manage the Foundation’s grant program. We simply make recommendations to the sponsors of the grant program on quality grant applications. You are also free to apply directly on their website for a grant.
