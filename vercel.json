@@ -3,7 +3,7 @@
   "outputDirectory": "artifacts/spray/dist/public",
   "installCommand": "pnpm install",
   "rewrites": [
-    { "source": "/api/(.*)", "destination": "https://spray-z97g.onrender.com/api/$1" },
+    { "source": "/api/(.*)", "destination": "https://spray-api-tjig.onrender.com/api/$1" },
     { "source": "/(.*)", "destination": "/index.html" }
   ]
 }
