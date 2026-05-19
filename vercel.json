@@ -2,5 +2,8 @@
   "buildCommand": "pnpm --filter @workspace/spray run build",
   "outputDirectory": "artifacts/spray/dist/public",
   "installCommand": "pnpm install",
-  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
+  "rewrites": [
+    { "source": "/api/(.*)", "destination": "https://spray-z97g.onrender.com/api/$1" },
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
 }
