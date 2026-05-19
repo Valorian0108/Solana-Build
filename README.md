@@ -1,40 +1,64 @@
-# Workspace
+# Spray
 
-## Overview
+A tip jar dApp for African creators, built on Solana Devnet.
 
-pnpm workspace monorepo using TypeScript. Each package manages its own dependencies.
+Spray lets fans send SOL tips directly to their favourite creators — musicians, artists, writers — with no middleman. Every tip is verified on-chain before being recorded.
+
+**Live demo:** _coming soon_  
+**Network:** Solana Devnet
+
+---
+
+## What It Does
+
+- Creators register a profile with a username, wallet address, and bio
+- Fans browse the creator directory and visit any creator's page
+- Fans connect their Phantom or Solflare wallet and send a SOL tip with a message
+- The server verifies the transaction on-chain before recording it — no fake tips
+- Creators see their tip history and total earnings on their profile
+
+## Routes
+
+| Path | Description |
+|------|-------------|
+| `/` | Landing page |
+| `/creators` | Browse all creators |
+| `/become-a-creator` | Register as a creator |
+| `/c/:username` | Creator profile + tip flow |
 
 ## Stack
 
-- **Monorepo tool**: pnpm workspaces
-- **Node.js version**: 24
-- **Package manager**: pnpm
-- **TypeScript version**: 5.9
-- **API framework**: Express 5
-- **Database**: PostgreSQL + Drizzle ORM
-- **Validation**: Zod (`zod/v4`), `drizzle-zod`
-- **API codegen**: Orval (from OpenAPI spec)
-- **Build**: esbuild (CJS bundle)
+- **Frontend:** React + Vite + Wouter
+- **Wallets:** Phantom & Solflare via `@solana/wallet-adapter-react`
+- **Blockchain:** Solana web3.js — `SystemProgram.transfer`, on-chain tx verification
+- **Backend:** Express 5 + Node.js
+- **Database:** PostgreSQL + Drizzle ORM
+- **Validation:** Zod + Orval codegen from OpenAPI spec
 
-## Key Commands
+## How Tipping Works
 
-- `pnpm run typecheck` — full typecheck across all packages
-- `pnpm run build` — typecheck + build all packages
-- `pnpm --filter @workspace/api-spec run codegen` — regenerate API hooks and Zod schemas from OpenAPI spec
-- `pnpm --filter @workspace/db run push` — push DB schema changes (dev only)
-- `pnpm --filter @workspace/api-server run dev` — run API server locally
+1. Fan connects wallet on a creator's page
+2. Selects a SOL amount and optionally adds a message
+3. Wallet signs and sends a `SystemProgram.transfer` transaction
+4. The app submits the transaction signature to the backend
+5. The server re-fetches the transaction from Devnet and verifies the recipient received the correct amount
+6. Only then is the tip recorded in the database (duplicate signatures are rejected)
 
-See the `pnpm-workspace` skill for workspace structure, TypeScript setup, and package details.
+## Running Locally
 
-## Spray — Solana Devnet Tip Jar (artifacts/spray)
+```bash
+# Install dependencies
+pnpm install
 
-A creator tip jar dApp for Nigerian creators on Solana **Devnet**. Built as a grant-application proof-of-work for Superteam Nigeria / Solana Foundation.
+# Set environment variables
+cp .env.example .env
+# Add DATABASE_URL to .env
 
-- **Network**: Solana Devnet only (`clusterApiUrl("devnet")`).
-- **Wallets**: Phantom + Solflare via `@solana/wallet-adapter-react` + `@solana/wallet-adapter-react-ui` (CSS imported in `main.tsx`).
-- **Routes**: `/` home, `/creators` directory, `/become-a-creator` onboarding, `/c/:username` profile + tip flow.
-- **Tip flow**: client builds a `SystemProgram.transfer` tx, `sendTransaction` via wallet adapter, waits for `confirmed` confirmation, then POSTs `{signature, amountLamports, tipperName, tipperWallet, message}` to `/api/creators/:username/tips`.
-- **On-chain verification (server)**: `artifacts/api-server/src/lib/solana.ts` re-fetches the tx via `getTransaction` against Devnet, asserts the recipient's lamport balance delta `>= expectedLamports`. Idempotent on the `tips.signature` UNIQUE constraint.
-- **DB**: `lib/db/src/schema/creators.ts`, `lib/db/src/schema/tips.ts` (`amountLamports` stored as bigint; serialized as Number in JSON).
-- **Polyfill**: `Buffer` is patched onto `globalThis` in `main.tsx` for browser web3.js compatibility.
-- **API**: see `lib/api-spec/openapi.yaml`. After edits run `pnpm --filter @workspace/api-spec run codegen`.
+# Push DB schema
+pnpm --filter @workspace/db run push
+
+# Start API server
+pnpm --filter @workspace/api-server run dev
+
+# Start frontend
+pnpm --filter @workspace/spray run dev
