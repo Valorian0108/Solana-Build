@@ -1,0 +1,6 @@
+{
+  "buildCommand": "pnpm --filter @workspace/spray run build",
+  "outputDirectory": "artifacts/spray/dist",
+  "installCommand": "pnpm install",
+  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
+}
